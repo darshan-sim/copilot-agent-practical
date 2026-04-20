@@ -1,9 +1,27 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
+
+const TODOS_STORAGE_KEY = 'todos'
 
 function App() {
   const [task, setTask] = useState('')
-  const [todos, setTodos] = useState([])
+  const [todos, setTodos] = useState(() => {
+    const storedTodos = localStorage.getItem(TODOS_STORAGE_KEY)
+    if (!storedTodos) {
+      return []
+    }
+
+    try {
+      const parsedTodos = JSON.parse(storedTodos)
+      return Array.isArray(parsedTodos) ? parsedTodos : []
+    } catch {
+      return []
+    }
+  })
+
+  useEffect(() => {
+    localStorage.setItem(TODOS_STORAGE_KEY, JSON.stringify(todos))
+  }, [todos])
 
   const addTask = (event) => {
     event.preventDefault()
