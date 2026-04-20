@@ -7,6 +7,7 @@ A minimal React todo app built with Vite.
 - Add task
 - Delete task
 - Mark as complete
+- Persist todos in browser local storage
 - Basic styling
 
 ## Run locally
