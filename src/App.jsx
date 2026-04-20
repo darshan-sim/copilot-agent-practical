@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 
 const TODOS_STORAGE_KEY = 'todos'
 
 function App() {
   const [task, setTask] = useState('')
+  const hasMounted = useRef(false)
   const [todos, setTodos] = useState(() => {
     const storedTodos = localStorage.getItem(TODOS_STORAGE_KEY)
     if (!storedTodos) {
@@ -20,6 +21,11 @@ function App() {
   })
 
   useEffect(() => {
+    if (!hasMounted.current) {
+      hasMounted.current = true
+      return
+    }
+
     localStorage.setItem(TODOS_STORAGE_KEY, JSON.stringify(todos))
   }, [todos])
 
