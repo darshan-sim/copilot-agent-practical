@@ -5,7 +5,7 @@ const TODOS_STORAGE_KEY = 'todos'
 
 function App() {
   const [task, setTask] = useState('')
-  const hasMounted = useRef(false)
+  const skipInitialPersist = useRef(true)
   const [todos, setTodos] = useState(() => {
     const storedTodos = localStorage.getItem(TODOS_STORAGE_KEY)
     if (!storedTodos) {
@@ -21,8 +21,8 @@ function App() {
   })
 
   useEffect(() => {
-    if (!hasMounted.current) {
-      hasMounted.current = true
+    if (skipInitialPersist.current) {
+      skipInitialPersist.current = false
       return
     }
 
